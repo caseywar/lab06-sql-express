@@ -205,5 +205,42 @@ describe('app routes', () => {
       expect(nothing.body).toEqual('');
     });
 
+
+    test('updates an album', async () => {
+      // define the new candy we want create
+      const newAlbum = {
+        name: 'cool music',
+        image: 'cool pic',
+        description: 'awesome album ',
+        category: 'Rock',
+        price: 20,
+        is_old: false,
+      };
+
+      const expectedAlbum = {
+        ...newAlbum,
+        owner_id: 1,
+        id: 1
+      };
+
+
+      // use the put endpoint to update a candy
+      await fakeRequest(app)
+        .put('/albums/1')
+        // pass in our new candy as the req.body
+        .send(newAlbum)
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      // go grab the candy we expect to be updated
+      const updatedAlbum = await fakeRequest(app)
+        .get('/albums/1')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      // check to see that it matches our expectations
+      expect(updatedAlbum.body).toEqual(expectedAlbum);
+    });
+
   });
 });
