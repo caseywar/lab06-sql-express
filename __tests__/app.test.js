@@ -178,6 +178,32 @@ describe('app routes', () => {
     });
 
 
+    test('deletes a single album with the matching id', async () => {
+      const expectation = {
+        'id': 2,
+        'name': 'Man on the Moon III: The Chosen',
+        'image': 'https://resources.tidal.com/images/0928ef0e/0eb4/464d/af75/72b38a3712d3/640x640.jpg',
+        'description': 'The seventh studio album by American rapper Kid Cudi',
+        'category': 'Hip Hop',
+        'price': 20,
+        'is_old': false,
+        'owner_id': 1
+      };
+
+      const data = await fakeRequest(app)
+        .delete('/albums/2')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+
+      const nothing = await fakeRequest(app)
+        .get('/albums/2')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(nothing.body).toEqual('');
+    });
 
   });
 });
