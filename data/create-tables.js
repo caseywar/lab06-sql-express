@@ -24,6 +24,7 @@ async function run() {
                     description VARCHAR(512) NOT NULL,
                     category VARCHAR(512) NOT NULL,
                     price INTEGER NOT NULL,
+                    is_old BOOLEAN NOT NULL,
                     owner_id INTEGER NOT NULL REFERENCES users(id)
             );
         `);

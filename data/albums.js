@@ -4,8 +4,9 @@ module.exports = [
     name: 'Channel Orange',
     image: 'https://media.pitchfork.com/photos/5929be57c0084474cd0c2e8c/1:1/w_600/45e3c196.jpeg',
     description: 'The debut studio album by American R&B singer and songwriter Frank Ocean',
-    category: 'Alternative R&B',
+    category: 'Alternative',
     price: 10,
+    is_old: false
 
   },
   {
@@ -15,14 +16,16 @@ module.exports = [
     description: 'The seventh studio album by American rapper Kid Cudi',
     category: 'Hip Hop',
     price: 20,
+    is_old: false
   },
   {
     id: 3,
     name: 'Mordechai',
     image: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/5d/Khruangbin_Mordechai_Cover.png/220px-Khruangbin_Mordechai_Cover.png',
     description: 'The third studio album by American musical trio Khruangbin',
-    category: 'Alternative/Indie',
+    category: 'Alternative',
     price: 15,
+    is_old: false
   },
   {
     id: 4,
@@ -31,6 +34,7 @@ module.exports = [
     description: 'An album by American jazz vibraphonist Dave Pike',
     category: 'Jazz',
     price: 25,
+    is_old: true
   },
   {
     id: 5,
@@ -39,6 +43,7 @@ module.exports = [
     description: 'The eleventh studio album by English rock band Genesis',
     category: 'Art Rock',
     price: 20,
+    is_old: true
   },
   {
     id: 6,
@@ -47,5 +52,6 @@ module.exports = [
     description: 'The fourth studio album by American rock band Incubus',
     category: 'Art Rock',
     price: 15,
+    is_old: false
   }
 ];
