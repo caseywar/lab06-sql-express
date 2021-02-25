@@ -39,8 +39,9 @@ describe('app routes', () => {
           name: 'Channel Orange',
           image: 'https://media.pitchfork.com/photos/5929be57c0084474cd0c2e8c/1:1/w_600/45e3c196.jpeg',
           description: 'The debut studio album by American R&B singer and songwriter Frank Ocean',
-          category: 'Alternative R&B',
+          category: 'Alternative',
           price: 10,
+          is_old: false,
           'owner_id': 1
         },
         {
@@ -50,6 +51,7 @@ describe('app routes', () => {
           description: 'The seventh studio album by American rapper Kid Cudi',
           category: 'Hip Hop',
           price: 20,
+          is_old: false,
           'owner_id': 1
         },
         {
@@ -57,8 +59,9 @@ describe('app routes', () => {
           name: 'Mordechai',
           image: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/5d/Khruangbin_Mordechai_Cover.png/220px-Khruangbin_Mordechai_Cover.png',
           description: 'The third studio album by American musical trio Khruangbin',
-          category: 'Alternative/Indie',
+          category: 'Alternative',
           price: 15,
+          is_old: false,
           'owner_id': 1
         },
         {
@@ -68,6 +71,7 @@ describe('app routes', () => {
           description: 'An album by American jazz vibraphonist Dave Pike',
           category: 'Jazz',
           price: 25,
+          is_old: true,
           'owner_id': 1
         },
         {
@@ -77,6 +81,7 @@ describe('app routes', () => {
           description: 'The eleventh studio album by English rock band Genesis',
           category: 'Art Rock',
           price: 20,
+          is_old: true,
           'owner_id': 1
         },
         {
@@ -86,6 +91,7 @@ describe('app routes', () => {
           description: 'The fourth studio album by American rock band Incubus',
           category: 'Art Rock',
           price: 15,
+          is_old: false,
           'owner_id': 1
         }
       ];
@@ -107,6 +113,7 @@ describe('app routes', () => {
         'description': 'The seventh studio album by American rapper Kid Cudi',
         'category': 'Hip Hop',
         'price': 20,
+        is_old: false,
         'owner_id': 1
       };
 
@@ -124,6 +131,50 @@ describe('app routes', () => {
         .expect(200);
 
       expect(nothing.body).toEqual('');
+    });
+
+
+    test('creates a new album and that new album is in our album list', async () => {
+      // define the new candy we want create
+      const newAlbum = {
+        name: 'The Dark Side of The Moon',
+        image: 'cool pic',
+        description: 'The Dark Side of the Moon is the eighth studio album by the English rock band Pink Floyd',
+        category: 'Rock',
+        price: 20,
+        is_old: true
+      };
+
+      // define what we expect that candy to look like after SQL does its thing
+      const expectedAlbum = {
+        ...newAlbum,
+        id: 7,
+        owner_id: 1,
+      };
+
+      // use the post endpoint to create a candy
+      const data = await fakeRequest(app)
+        .post('/albums')
+        // pass in our new candy as the req.body
+        .send(newAlbum)
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      // we expect the post endpoint to responds with our expected candy
+      expect(data.body).toEqual(expectedAlbum);
+
+      // we want to check that the new candy is now ACTUALLY in the database
+      const allAlbums = await fakeRequest(app)
+        // so we fetch all the candies
+        .get('/albums')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      // we go and find the turkish delight
+      const darkSide = allAlbums.body.find(album => album.name === 'The Dark Side of The Moon');
+
+      // we check to see that the turkish delight in the DB matches the one we expected
+      expect(darkSide).toEqual(expectedAlbum);
     });
 
 
